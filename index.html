@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ed9aaa;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* main box */
+.container {
+  text-align: center;
+  z-index: 2;
+}
+
+h1 {
+  color: rgb(150, 12, 12);
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+}
+
+/* buttons */
+button {
+  padding: 14px 26px;
+  font-size: 18px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yes {
+  background: #fbfbfb;
+  color: rgb(10, 0, 0);
+  box-shadow: 0 0 15px rgba(255, 77, 109, 0.8);
+}
+
+#no {
+  background: #fbfbfb;
+  color: black;
+  position: absolute;
+}
+
+/* floating hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear forwards;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* photos */
+.photo {
+  position: absolute;
+  width: 130px;
+  border-radius: 15px;
+  animation: pop 0.8s ease forwards;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes pop {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* sparkles */
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 18px;
+  animation: sparkle 1s ease-out forwards;
+}
+
+@keyframes sparkle {
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- background music -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<div class="container" id="main">
+  <h1>Yadu, will you be my Valentine? 💘</h1>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No 😏</button>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const main = document.getElementById("main");
+
+/* NO button runs away */
+noBtn.addEventListener("mouseover", () => {
+  noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
+  noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
+});
+
+/* floating hearts */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 400);
+
+/* YES click */
+yesBtn.addEventListener("click", () => {
+  yesClicked = true;           // stop NO movement
+  noBtn.style.display = "none"; // hide No permanently
+  document.getElementById("bgMusic").play().catch(()=>{});
+  main.innerHTML = "<h1>YAYYY LESGOO MWAAHH💖</h1>";
+
+  const positions = [
+    {x:50, y:25},{x:35, y:35},{x:65, y:35},{x:30, y:52},
+    {x:70, y:52},{x:40, y:68},{x:60, y:68},{x:50, y:82}
+  ];
+
+  const images = [
+    "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpeg","photo5.jpg"
+    ,"photo6.jpeg","photo7.jpg","photo8.jpeg"
+  ];
+
+  images.forEach((src, i) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "photo";
+    img.style.left = positions[i].x + "%";
+    img.style.top = positions[i].y + "%";
+    document.body.appendChild(img);
+  });
+});
+
+
+
+/* sparkles on click */
+document.addEventListener("click", (e) => {
+  const sparkle = document.createElement("div");
+  sparkle.className = "sparkle";
+  sparkle.innerHTML = "✨";
+  sparkle.style.left = e.pageX + "px";
+  sparkle.style.top = e.pageY + "px";
+  document.body.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 1000);
+});
+</script>
+
+</body>
+</html>
